@@ -23,6 +23,7 @@ temp_lr=0.001
 temp_epochs = 5000
 temp_freq = 25
 temp_dataset_name = 'WN18RR_torch'
+torch.manual_seed(1)
 watch = True
 
 
@@ -48,7 +49,7 @@ test_data = test_data.to(device)
 model = ComplEx(
     num_nodes=train_data.num_nodes,
     num_relations=train_data.num_edge_types,
-    hidden_channels=50,
+    hidden_channels=512,    # earlier it was 50
     ).to(device)
 
 
@@ -114,7 +115,7 @@ mean_rank, mrr, hits_at_10, map_sk, map_scr = test(model, test_data)
 print(f'\nTest Mean Rank: {mean_rank:.2f}, Test MRR: {mrr:.4f}, Test Hits@10: {hits_at_10:.4f}')
 
 # save the model
-torch.save(model, f'./checkpoints/{dataset_name}_{EPOCHS}_epochs_{str(lr)[2:]}_lr_complEx.pth')
+torch.save(model, f'./checkpoints/{dataset_name}_{EPOCHS}_epochs_{str(lr)[2:]}_lr_complEx_channels_512.pth')
 
 # load a model:
 # model = ComplEx()
